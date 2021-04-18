@@ -18,6 +18,8 @@ class TopicsSeeder extends Seeder
         Topic::create(['name' => 'Design']);
         Topic::create(['name' => 'SEO']);
         Topic::create(['name' => 'Business']);
+        Topic::create(['name' => 'Software']);
+        Topic::create(['name' => 'Database']);
         Topic::create(['name' => 'Random']);
     }
 }
