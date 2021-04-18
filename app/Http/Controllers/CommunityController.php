@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Topic;
 use App\Models\Community;
-use Illuminate\Http\Request;
+// use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCommunityRequest;
+use App\Http\Requests\UpdateCommunityRequest;
 
 class CommunityController extends Controller
 {
@@ -17,7 +18,9 @@ class CommunityController extends Controller
      */
     public function index()
     {
-        //
+        $communities = Community::where('user_id', auth()->id())->get();
+
+        return view('communities.index', compact('communities'));
     }
 
     /**
@@ -54,7 +57,7 @@ class CommunityController extends Controller
      */
     public function show(Community $community)
     {
-        return $community->name;
+        return $community->all();
     }
 
     /**
@@ -63,9 +66,14 @@ class CommunityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Community $community)
     {
-        //
+        if ($community->user_id != auth()->id()) {
+            abort(403);
+        }
+        $topics = Topic::all();
+        $community->load('topics');
+        return view('communities.edit', compact('community', 'topics')); 
     }
 
     /**
@@ -75,9 +83,15 @@ class CommunityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCommunityRequest $request, Community $community)
     {
-        //
+        if ($community->user_id != auth()->id()) {
+            abort(403);
+        }
+        $community->update($request->validated());
+        $community->topics()->sync($request->topics);
+
+        return redirect()->route('communities.index')->with('message', 'Community is successfully updated');
     }
 
     /**
@@ -86,8 +100,13 @@ class CommunityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Community $community)
     {
-        //
+        if ($community->user_id != auth()->id()) {
+            abort(403);
+        }
+        $community->delete();
+
+        return redirect()->route('communities.index')->with('message', 'Community is successfully deleted');
     }
 }
