@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Topic;
+use App\Models\Community;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCommunityRequest;
 
 class CommunityController extends Controller
 {
@@ -36,9 +38,12 @@ class CommunityController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCommunityRequest $request)
     {
-        //
+        $community = Community::create($request->validated() + ['user_id' => auth()->id()]);
+        $community->topics()->attach($request->topics);
+
+        return redirect()->route('communities.show', $community);
     }
 
     /**
@@ -47,9 +52,9 @@ class CommunityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Community $community)
     {
-        //
+        return $community->name;
     }
 
     /**
