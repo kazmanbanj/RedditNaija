@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
-// use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Community extends Model
 {
-    use HasFactory, Sluggable;
+    use HasFactory, Sluggable, SoftDeletes;
 
     protected $fillable = ['user_id', 'name', 'description', 'slug'];
 
@@ -35,5 +35,10 @@ class Community extends Model
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
     }
 }
