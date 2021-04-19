@@ -8,8 +8,18 @@
                 <div class="card-header">{{ $post->title }}</div>
 
                 <div class="card-body">
+                    @if (session('message'))
+                        <div class="alert alert-info">{{ session('message') }}</div>
+                    @endif
+
                     @if ($post->post_url != '')
                         <a href="{{ $post->post_url }}" target="_blank" class="mb-2">{{ $post->post_url }}</a>
+                        <br/><br/>
+                    @endif
+
+                    @if ($post->post_image != '')
+                        <img src="{{ asset('storage/posts/' . $post->id . '/thumbnails_' . $post->post_image) }}"/>
+                        <br/><br/>
                     @endif
                     <br>
                     {{ $post->post_text }}

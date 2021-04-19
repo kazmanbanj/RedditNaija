@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
-use App\Models\Community;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePostRequest;
+use App\Models\Community;
+use App\Models\Post;
+use App\Models\PostVote;
+use App\Notifications\PostReportNotification;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Intervention\Image\Facades\Image;
 
 class CommunityPostController extends Controller
 {
@@ -38,8 +41,6 @@ class CommunityPostController extends Controller
      */
     public function store(StorePostRequest $request, Community $community)
     {
-        $image = '';
-
         $post = $community->posts()->create([
             'user_id' => auth()->id(),
             'title' => $request->title,
@@ -49,8 +50,17 @@ class CommunityPostController extends Controller
 
         if ($request->hasFile('post_image')) {
             $image = $request->file('post_image')->getClientOriginalName();
-            $request->file('post_image')->storeAs('posts/' . $post->id, $image);
+            $request->file('post_image')
+                ->storeAs('posts/' . $post->id, $image);
             $post->update(['post_image' => $image]);
+
+            // image resize
+            $file = Image::make(storage_path('app/public/posts/' . $post->id . '/' . $image));
+            $file->resize(600, null, function ($constraint)
+            {
+                $constraint->aspectRatio();
+            });
+            $file->save(storage_path('app/public/posts/' . $post->id . '/thumbnails_' . $image));
         }
 
         return redirect()->route('communities.show', $community);
@@ -101,11 +111,19 @@ class CommunityPostController extends Controller
             $image = $request->file('post_image')->getClientOriginalName();
             $request->file('post_image')->storeAs('posts/' . $post->id, $image);
 
-            if ($post->post_image != '') {
+            if ($post->post_image != '' && $post->post_image != $image) {
                 unlink(storage_path('app/public/posts/' . $post->id . '/' . $post->post_image));
             }
 
             $post->update(['post_image' => $image]);
+
+            // image resize
+            $file = Image::make(storage_path('app/public/posts/' . $post->id . '/' . $image));
+            $file->resize(600, null, function ($constraint)
+            {
+                $constraint->aspectRatio();
+            });
+            $file->save(storage_path('app/public/posts/' . $post->id . '/thumbnails_' . $image));
         }
 
         return redirect()->route('communities.posts.show', [$community, $post]);

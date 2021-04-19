@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('New Community') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('communities.store', $community) }}">
+                    <form method="POST" action="{{ route('communities.store') }}">
                         @csrf
 
                         <div class="form-group row">

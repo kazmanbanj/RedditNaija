@@ -11,10 +11,25 @@
                     <a href="{{ route('communities.posts.create', $community) }}" class="btn btn-primary">Add Post</a>
                     <br><br>
                     @forelse ($posts as $post)
-                        <a href="{{ route('communities.posts.show', [$community, $post]) }}"><h3>{{ $post->title }}</h3></a>
-                        <p>{{ \Illuminate\Support\Str::words($post->post_text, 10) }}</p>
+                    <div class="row">
+                        <div class="col-1 text-center">
+                            <div>
+                                <a wire:click.prevent="vote(1)" href="#"><i class="fa fa-2x fa-sort-asc" aria-hidden="true"></i></a>
+                            </div>
+                            <div>
+                                <a wire:click.prevent="vote(-1)" href="#"><i class="fa fa-2x fa-sort-desc" aria-hidden="true"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-11">
+                            <a href="{{ route('communities.posts.show', [$community, $post]) }}">
+                                <h3>{{ $post->title }}</h3>
+                            </a>
+                            <p>{{ \Illuminate\Support\Str::words($post->post_text, 10) }}</p>
+                        </div>
+                    </div>
+                    <hr>
                     @empty
-                        No posts found
+                    No posts found
                     @endforelse
 
                     {{ $posts->links() }}
