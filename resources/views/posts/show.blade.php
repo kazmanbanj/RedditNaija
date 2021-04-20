@@ -25,8 +25,32 @@
                     {{ $post->post_text }}
 
                     @auth()
+                    <!-- Comments -->
+                        <hr/>
+                        <h3><u>Comments:</u></h3>
+                        @forelse ($post->comments as $comment)
+                        <div class="border p-3" style="border-radius: 10px;">
+                            <b>by: {{ $comment->user->name }}</b>
+                            <br/>
+                            <i class="fa fa-clock-o" aria-hidden="true"></i> - {{ $comment->created_at->diffForHumans() }}
+                            <p class="mt-2">{{ $comment->comment_text }}</p>
+                        </div>
+                        @empty
+                            No comments yet.
+                        @endforelse
+                        <hr/>
+                        <form method="POST" action="{{ route('posts.comments.store', $post) }}">
+                            @csrf
+                            Add a comment:
+                            <br/>
+                            <textarea class="form-control" name="comment_text" rows="5" required></textarea>
+                            <br/>
+                            <button type="submit" class="btn btn-sm btn-primary">Add Comment</button>
+                        </form>
+                        <hr/>
+                    <!-- Comments end -->
+
                         @if ($post->user_id == auth()->id())
-                            <hr>
                             <a href="{{ route('communities.posts.edit', [$community, $post]) }}" class="btn btn-sm btn-primary">Edit post</a>
 
                             <form action="{{ route('communities.posts.destroy', [$community, $post]) }}"

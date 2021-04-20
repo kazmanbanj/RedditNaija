@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StorePostRequest;
-use App\Models\Community;
 use App\Models\Post;
 use App\Models\PostVote;
-use App\Notifications\PostReportNotification;
+use App\Models\Community;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
 use Intervention\Image\Facades\Image;
+use App\Http\Requests\StorePostRequest;
+use App\Notifications\PostReportNotification;
 
 class CommunityPostController extends Controller
 {
@@ -74,6 +75,8 @@ class CommunityPostController extends Controller
      */
     public function show(Community $community, Post $post)
     {
+        $post->load('comments.user');
+
         return view('posts.show', compact('community', 'post'));
     }
 
