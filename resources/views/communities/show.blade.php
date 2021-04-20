@@ -14,10 +14,11 @@
                     <div class="row">
                         <div class="col-1 text-center">
                             <div>
-                                <a wire:click.prevent="vote(1)" href="#"><i class="fa fa-2x fa-sort-asc" aria-hidden="true"></i></a>
+                                <a wire:click.prevent="vote(1)" href="{{ route('post.vote', [$post->id, 1]) }}"><i class="fa fa-2x fa-sort-asc" aria-hidden="true"></i></a>
                             </div>
+                            <b style="font-size: 24px; font-weight: bold">{{ $post->votes }}</b>
                             <div>
-                                <a wire:click.prevent="vote(-1)" href="#"><i class="fa fa-2x fa-sort-desc" aria-hidden="true"></i></a>
+                                <a wire:click.prevent="vote(-1)" href="{{ route('post.vote', [$post->id, -1]) }}"><i class="fa fa-2x fa-sort-desc" aria-hidden="true"></i></a>
                             </div>
                         </div>
                         <div class="col-11">
@@ -29,7 +30,7 @@
                     </div>
                     <hr>
                     @empty
-                    No posts found
+                        No posts found
                     @endforelse
 
                     {{ $posts->links() }}
