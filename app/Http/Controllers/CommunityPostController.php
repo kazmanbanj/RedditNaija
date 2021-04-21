@@ -88,7 +88,7 @@ class CommunityPostController extends Controller
      */
     public function edit(Community $community, Post $post)
     {
-        if ($post->user_id != auth()->id()) {
+        if (Gate::denies('edit-post', $post)) {
             abort(403);
         }
 
@@ -104,7 +104,7 @@ class CommunityPostController extends Controller
      */
     public function update(StorePostRequest $request, Community $community, Post $post)
     {
-        if ($post->user_id != auth()->id()) {
+        if (Gate::denies('edit-post', $post)) {
             abort(403);
         }
 
@@ -140,7 +140,7 @@ class CommunityPostController extends Controller
      */
     public function destroy(Community $community, Post $post)
     {
-        if (!in_array(auth()->id(), [$post->user_id, $community->user_id]) ) {
+        if (Gate::denies('delete-post', $post)) {
             abort(403);
         }
         $post->delete();
