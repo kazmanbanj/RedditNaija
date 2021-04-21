@@ -22,7 +22,7 @@ class CreatePostsTable extends Migration
             $table->text('post_image')->nullable();
             $table->text('post_url')->nullable();
             $table->timestamps();
-            $table->softDeletes()->nullable();
+            $table->softDeletes();
         });
     }
 
