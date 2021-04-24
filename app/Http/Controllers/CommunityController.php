@@ -55,8 +55,10 @@ class CommunityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Community $community)
+    public function show($slug)
     {
+        $community = Community::where('slug', $slug)->firstOrFail();
+        
         $query = $community->posts()->with('postVotes');
 
         if (request('sort', '') == 'popular') {

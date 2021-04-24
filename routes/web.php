@@ -22,9 +22,12 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Auth::routes(['verify' => true]);
 
+Route::get('c/{slug}', [CommunityController::class, 'show'])->name('communities.show');
+Route::get('p/{postId}', [CommunityPostController::class, 'show'])->name('communities.posts.show');
+
 Route::group(['middleware' => ['auth', 'verified']], function() {
-    Route::resource('communities', CommunityController::class);
-    Route::resource('communities.posts', CommunityPostController::class);
+    Route::resource('communities', CommunityController::class)->except('show');
+    Route::resource('communities.posts', CommunityPostController::class)->except('show');
     Route::resource('posts.comments', PostCommentController::class);
     Route::get('posts/{post_id}/vote/{vote}', [\App\Http\Controllers\CommunityPostController::class, 'vote'])->name('post.vote');
     Route::post('posts/{post_id}/report', [\App\Http\Controllers\CommunityPostController::class, 'report'])->name('post.report');
