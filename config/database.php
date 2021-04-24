@@ -46,10 +46,10 @@ return [
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST', 'https://www.freemysqlhosting.net/'),
+            'host' => env('DB_HOST', 'sql11.freemysqlhosting.net'),
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', '407242'),
-            'username' => env('DB_USERNAME', '407242'),
+            'database' => env('DB_DATABASE', 'sql11407242'),
+            'username' => env('DB_USERNAME', 'sql11407242'),
             'password' => env('DB_PASSWORD', 'UUvjwwIPVx'),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
