@@ -76,7 +76,7 @@ class CommunityPostController extends Controller
     public function show($postId)
     {
         $post = Post::with('comments.user', 'community')->findOrFail($postId);
-
+        
         return view('posts.show', compact('post'));
     }
 
