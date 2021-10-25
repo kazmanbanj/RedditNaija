@@ -9,6 +9,19 @@ use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
+    protected function visitorsCount()
+    {
+        $visitorsCount = DB::table('visitors_count')->count();
+        $visitorIp = Request::ip();
+        $allVisitors = DB::table('visitors_count')->where('ip_address', $visitorIp)->count();
+
+        if ($allVisitors < 1) {
+            DB::table('visitors_count')->insert(['ip_address' => $visitorIp]);
+        }
+
+        return $visitorsCount;
+    }
+
     /**
      * Show the application dashboard.
      *
@@ -21,13 +34,7 @@ class HomeController extends Controller
                 ->where('vote', 1);
         }])->orderBy('post_votes_count', 'desc')->take(10)->get();
 
-        $visitorsCount = DB::table('visitors_count')->count();
-        $visitorIp = Request::ip();
-        $allVisitors = DB::table('visitors_count')->where('ip_address', $visitorIp)->count();
-
-        if ($allVisitors < 1) {
-            DB::table('visitors_count')->insert(['ip_address' => $visitorIp]);
-        }
+        $visitorsCount = $this->visitorsCount();
 
         return view('home', compact('posts', 'visitorsCount'));
     }
