@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Request;
 use App\Models\Post;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
@@ -19,6 +21,14 @@ class HomeController extends Controller
                 ->where('vote', 1);
         }])->orderBy('post_votes_count', 'desc')->take(10)->get();
 
-        return view('home', compact('posts'));
+        $visitorsCount = DB::table('visitors_count')->count();
+        $visitorIp = Request::ip();
+        $allVisitors = DB::table('visitors_count')->where('ip_address', $visitorIp)->count();
+
+        if ($allVisitors < 1) {
+            DB::table('visitors_count')->insert(['ip_address' => $visitorIp]);
+        }
+
+        return view('home', compact('posts', 'visitorsCount'));
     }
 }

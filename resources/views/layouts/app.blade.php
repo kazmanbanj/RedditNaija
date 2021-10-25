@@ -9,7 +9,7 @@
   var t = window.driftt = window.drift = window.driftt || [];
   if (!t.init) {
     if (t.invoked) return void (window.console && console.error && console.error("Drift snippet included twice."));
-    t.invoked = !0, t.methods = [ "identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on" ], 
+    t.invoked = !0, t.methods = [ "identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on" ],
     t.factory = function(e) {
       return function() {
         var n = Array.prototype.slice.call(arguments);
@@ -78,7 +78,6 @@ drift.load('neybfrizwi22');
                                     <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
                             @endif
-                            
                             @if (Route::has('register'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>

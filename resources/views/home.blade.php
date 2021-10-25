@@ -1,13 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="text-center">
+    <h5><span class="badge badge-secondary">Views: {{ $visitorsCount }}</span></h5>
+</div>
+<br>
 <div class="card">
     <div class="card-header">Most Popular Posts</div>
 
     <div class="card-body">
     @foreach ($posts as $post)
         <div class="row">
-            @livewire('post-votes', ['post' => $post])            
+            @livewire('post-votes', ['post' => $post])
             <div class="col-11">
                 <a href="{{ route('communities.posts.show', [$post->id]) }}">
                     <h3>{{ $post->title }}</h3>
