@@ -15,7 +15,7 @@
         @endif
 
         @if ($post->post_image != '')
-        <img src="{{ asset('storage/posts/' . $post->id . '/thumbnails_' . $post->post_image) }}" />
+        <img src="{{ asset('storage/posts/' . $post->id . '/thumbnails_' . $post->post_image) }}"/>
         <br /><br />
         @endif
         <br>
