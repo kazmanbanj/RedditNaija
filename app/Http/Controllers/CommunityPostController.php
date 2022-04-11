@@ -114,8 +114,8 @@ class CommunityPostController extends Controller
             $image = $request->file('post_image')->getClientOriginalName();
             $request->file('post_image')->storeAs('posts/' . $post->id, $image);
 
-            if ($post->post_image || $post->post_image != $image) {
-                unlink(storage_path('app/public/posts/' . $post->id . '/' . $post->post_image));
+            if (!$post->post_image || $post->post_image != $image) {
+                unlink(storage_path('posts/' . $post->id . '/' . $post->post_image));
             }
 
             $post->update(['post_image' => $image]);
