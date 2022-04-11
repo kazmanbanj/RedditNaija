@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="text-center">
+{{-- <div class="text-center">
     <h5><span class="badge badge-secondary">Views: {{ $visitorsCount }}</span></h5>
 </div>
-<br>
+<br> --}}
 <div class="card">
     <div class="card-header">Most Popular Posts</div>
 
