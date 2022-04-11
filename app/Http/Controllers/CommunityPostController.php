@@ -76,7 +76,7 @@ class CommunityPostController extends Controller
     public function show($postId)
     {
         $post = Post::with('comments.user', 'community')->findOrFail($postId);
-        
+
         return view('posts.show', compact('post'));
     }
 
@@ -92,7 +92,7 @@ class CommunityPostController extends Controller
             abort(403);
         }
 
-        return view('posts.edit', compact('community', 'post'));        
+        return view('posts.edit', compact('community', 'post'));
     }
 
     /**
@@ -129,7 +129,7 @@ class CommunityPostController extends Controller
             $file->save(storage_path('app/public/posts/' . $post->id . '/thumbnails_' . $image));
         }
 
-        return redirect()->route('communities.posts.show', [$community, $post]);
+        return redirect()->route('communities.posts.show', [$post, $community]);
     }
 
     /**
