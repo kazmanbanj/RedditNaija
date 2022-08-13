@@ -22,6 +22,6 @@ class PostCommentController extends Controller
             'comment_text' => $request->comment_text
         ]);
 
-        return redirect()->route('communities.posts.show', [$post->community, $post]);
+        return redirect()->route('communities.posts.show', [$post, $post->community]);
     }
 }
