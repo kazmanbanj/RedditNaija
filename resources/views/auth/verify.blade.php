@@ -16,8 +16,10 @@
         <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
             @csrf
             <button type="submit"
-                class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to request another') }}</button>.
+                class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to request another') }}</button>
         </form>
+        {{ __('or contact ') }}<a href="mailto:banjoko2020@gmail.com">admin</a>.
+
     </div>
 </div>
 @endsection

@@ -169,7 +169,7 @@ class CommunityPostController extends Controller
 
         $post->community->user->notify(new PostReportNotification($post));
 
-        return redirect()->route('communities.posts.show', [$post->community, $post])
+        return redirect()->route('communities.posts.show', [$post, $post->community])
             ->with('message', 'Your report has been sent successfully.');
     }
 }
